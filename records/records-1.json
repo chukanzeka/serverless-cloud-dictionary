@@ -179,22 +179,6 @@
     {
       "PutRequest": {
         "Item": {
-          "term": { "S": "AWS X-Ray Tracing" },
-          "definition": { "S": "AWS X-Ray provides end-to-end tracing of requests made to your AWS services, enabling you to analyze and debug performance bottlenecks." }
-        }
-      }
-    },
-    {
-      "PutRequest": {
-        "Item": {
-          "term": { "S": "AWS Batch Computing" },
-          "definition": { "S": "AWS Batch enables you to efficiently run hundreds to thousands of batch computing jobs on AWS resources." }
-        }
-      }
-    },
-    {
-      "PutRequest": {
-        "Item": {
           "term": { "S": "AWS RDS Multi-AZ Deployments" },
           "definition": { "S": "Amazon RDS Multi-AZ deployments provide high availability for database instances by automatically replicating data across multiple availability zones." }
         }
