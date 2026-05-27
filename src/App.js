@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+
+const getRandomItems = (arr, n) => {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, n);
+};
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -8,8 +13,18 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   const apiUrl = 'https://wfx07f6ujb.execute-api.us-east-1.amazonaws.com/dev';
+
+  useEffect(() => {
+    axios.get(`${apiUrl}/get-definition`)
+      .then(response => {
+        const terms = response.data.terms || [];
+        setSuggestions(getRandomItems(terms, 8));
+      })
+      .catch(err => console.error('Could not load suggestions:', err));
+  }, []);
 
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
@@ -120,11 +135,11 @@ const App = () => {
             </div>
           )}
 
-          {!loading && !searched && (
+          {!loading && !searched && suggestions.length > 0 && (
             <div className="suggestions">
               <p className="suggestions-label">Try searching for</p>
               <div className="suggestion-chips">
-                {['AWS Lambda', 'S3', 'IAM', 'VPC', 'CloudWatch', 'EC2', 'DynamoDB', 'AWS KMS'].map(term => (
+                {suggestions.map(term => (
                   <button
                     key={term}
                     className="chip"
